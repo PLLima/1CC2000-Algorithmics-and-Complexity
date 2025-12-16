@@ -359,10 +359,18 @@ def test_all_distances():
 
 def BF_SP_all_pairs(graph, src="source"):
 
-    ############### TODO : complete code ##################
     d = {(u,v):None for u in graph for v in graph}
 
     # Return a dictionary of distances for all pairs of nodes
+    for u in graph:
+        dist = bellman_ford(graph, u)
+        for v in graph:
+            if dist == None:
+                d[(u,v)] = None
+            if v in dist and dist[v] != math.inf:
+                d[(u,v)] = dist[v]
+            else:
+                d[(u,v)] = None
 
     return d
 
@@ -381,6 +389,7 @@ def test_BF_SP_all_pairs():
     grader.addMessage(f'Expecting: {grader.printer.pformat(answer)}')
     dist=BF_SP_all_pairs(sim_graph)
 
+    print(dist)
     if grader.requireIsEqual(answer, dist):
         grader.addMessage('Got it!')
     else:
