@@ -543,8 +543,39 @@ def greedy_algorithm(map, candidates, k, distance_dict):
     distance_dict: a dictionary of all shortest distances between all pairs of vertices
     return: a tuple of the maximum distance between a house and the closest oven house and the set of oven houses
     '''
-    ############### TODO : complete code ##################
-    return 0, set()
+
+    current_ovens = []
+    
+    # Loop k times to add k ovens
+    for _ in range(k):
+        best_candidate = None
+        best_cost = math.inf
+        
+        # Test every potential candidate that hasn't been chosen yet
+        for cand in candidates:
+            if cand in current_ovens:
+                continue
+            
+            # Simulate adding this candidate to the current list
+            temp_ovens = current_ovens + [cand]
+            
+            # Calculate the global cost (max distance) with this configuration
+            # We use the already implemented kcentre_value function
+            cost = kcentre_value(map, temp_ovens, distance_dict)
+            
+            # Keep the candidate that minimizes this cost
+            if cost < best_cost:
+                best_cost = cost
+                best_candidate = cand
+        
+        # Confirm the choice of the best candidate for this step
+        if best_candidate is not None:
+            current_ovens.append(best_candidate)
+            
+    # Return the final cost and the set of chosen ovens
+    final_cost = kcentre_value(map, current_ovens, distance_dict)
+    return final_cost, set(current_ovens)
+
 def test_greedy_algorithm():
     village = read_map('village.map')
 
