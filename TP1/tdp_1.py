@@ -235,16 +235,22 @@ def bellman_ford(graph, src):
     dist={}
 
     #initialize dist
-    ############TODO : complete code#############
     for i in graph:
         dist[i]=math.inf
     dist[src]=0
 
     # calculate optimal distance
-    ############TODO : complete code#############
+    for _ in range(n - 1):
+        for u in graph:
+            for v, weight in graph[u].items():
+                if dist[u] + weight < dist[v]:
+                    dist[v] = dist[u] + weight
 
     # detect negative cycle: return None if there is any
-    ############TODO : complete code#############
+    for u in graph:
+        for v, weight in graph[u].items():
+            if dist[u] + weight < dist[v]:
+                return None
 
     return dist
 
@@ -292,7 +298,9 @@ def rewrite_weights(graph, dist):
     altered_graph = copy.deepcopy(graph)
 
     # Recalculate the new nonnegative weights
-    ############### TODO : complete code ##################
+    for u in graph:
+        for v in graph[u]:
+            altered_graph[u][v] = graph[u][v] + dist[u] - dist[v]
 
     return altered_graph
 
