@@ -543,7 +543,6 @@ def greedy_algorithm(map, candidates, k, distance_dict):
     distance_dict: a dictionary of all shortest distances between all pairs of vertices
     return: a tuple of the maximum distance between a house and the closest oven house and the set of oven houses
     '''
-
     current_ovens = []
     
     # Loop k times to add k ovens
@@ -616,8 +615,23 @@ def random_algorithm(map, candidates, k, distance_dict, trials=100) :
     trials: number of trials
     return: a tuple of the maximum distance between a house and the closest oven house and the set of oven houses
     '''
-    ############### TODO : complete code ##################
-    return 0, set()
+    best_cost = math.inf
+    best_ovens = set()
+
+    for _ in range(trials):
+        # Randomly select k distinct houses from the candidates
+        current_ovens = random.sample(candidates, k)
+
+        # Evaluate the cost (max distance) for this random selection
+        # We use the already implemented kcentre_value function
+        cost = kcentre_value(map, current_ovens, distance_dict)
+
+        # Update if this random selection is better than what we found so far
+        if cost < best_cost:
+            best_cost = cost
+            best_ovens = set(current_ovens)
+
+    return best_cost, best_ovens
 
 def test_random_algorithm():
     village = read_map('village.map')
