@@ -405,8 +405,15 @@ def closest_oven(house, oven_houses, distance_dict):
     distance_dict: a dictionary of all shortest distances between all pairs of vertices
     return: a tuple of the distance to the closest oven house and the closest oven house
     '''
-    ############### TODO : complete code ##################
-    return (0, None)
+    min_dist = math.inf
+    closest_oven = None
+    for oven_house in oven_houses:
+        if distance_dict[(house, oven_house)] < min_dist:
+            min_dist = distance_dict[(house, oven_house)]
+            closest_oven = oven_house
+
+    return (min_dist, closest_oven)
+
 def test_closest_oven():
     toy_village = {'A': {'B': -3, 'E': 20, 'F': 30},
            'B': {'A': 6, 'C': 9, 'F': 39},
