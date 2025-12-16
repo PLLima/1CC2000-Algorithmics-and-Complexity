@@ -330,7 +330,13 @@ def all_distances(graph):
     '''
     d = {(u,v):None for u in graph for v in graph}
 
-    ############### TODO : complete code ##################
+    for u in graph:
+        dist = SP_heap(graph, u)
+        for v in graph:
+            if v in dist:
+                d[(u,v)] = dist[v]
+            else:
+                d[(u,v)] = None
 
     return d
 
