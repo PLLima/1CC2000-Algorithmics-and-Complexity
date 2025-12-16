@@ -1,6 +1,8 @@
 from SP import SP_naive
 from SP import SP_heap
 
+import matplotlib.pyplot as plt
+from timeit import timeit
 import random
 
 def random_sparse_graph (n, step):
@@ -31,9 +33,6 @@ def random_dense_graph (n, d_max):
                 graph[n2][n1] = d
 
     return graph
-
-import matplotlib.pyplot as plt
-from timeit import timeit
 
 def benchmark():
     Time_heap_sparse = []
@@ -93,3 +92,6 @@ def benchmark():
 
     plt.tight_layout()
     plt.show()
+
+if __name__ == "__main__":
+    benchmark()
