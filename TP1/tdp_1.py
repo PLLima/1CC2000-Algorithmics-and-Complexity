@@ -191,7 +191,9 @@ def add_source(graph, src):
 
     graph_src=graph.copy()
 
-    ############TODO : complete code#########
+    graph_src[src]={}
+    for v in graph.keys():
+        graph_src[src][v]=0
 
     return graph_src
 
