@@ -446,9 +446,13 @@ def kcentre_value(village, oven_houses, distance_dict):
     distance_dict: a dictionary of all shortest distances between all pairs of vertices
     return: the maximum distance between a house and the closest oven house
     '''
+    max_dist = -math.inf
+    for house in village.keys():
+        dist, _ = closest_oven(house, oven_houses, distance_dict)
+        if dist > max_dist:
+            max_dist = dist
 
-    ############### TODO : complete code ##################
-    return 0
+    return max_dist
 
 def test_kcentre_value():
     toy_village = {'A': {'B': -3, 'E': 20, 'F': 30},
