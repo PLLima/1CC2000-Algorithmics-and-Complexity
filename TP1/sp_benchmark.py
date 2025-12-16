@@ -1,5 +1,5 @@
-from SP import SP_naive
-from SP import SP_heap
+from sp import SP_naive
+from sp import SP_heap
 
 import matplotlib.pyplot as plt
 from timeit import timeit
