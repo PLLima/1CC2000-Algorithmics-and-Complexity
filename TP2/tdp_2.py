@@ -89,7 +89,6 @@ def backtracking(O_dict, W) :
 def greedy(O_dict, W):
 
     # initialization
-    n = len(O_dict)
     sol = {'selected': set() , 'weight': 0, 'score': 0}
 
     sorted_objs = sorted(O_dict.keys(), 
