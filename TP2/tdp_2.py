@@ -239,9 +239,23 @@ def knapsack_bb_fractional(O_dict, W):
         obj_weight = O_dict[obj]['w']
         obj_value = O_dict[obj]['v']
 
-    ############### TODO : complete code ####################        
-        
-    ###############################################################
+        if state['weight'] + obj_weight <= W:
+            new_selected = state['selected'].copy()
+            new_selected.add(obj)
+            
+            yield {
+                'selected': new_selected,
+                'index': index + 1,
+                'weight': state['weight'] + obj_weight,
+                'score': state['score'] + obj_value
+            }
+
+        yield {
+            'selected': state['selected'].copy(),
+            'index': index + 1,
+            'weight': state['weight'],
+            'score': state['score']
+        }
 
 
     def branch_and_bound(C0: State, f, is_leaf, partition) -> Optional[Tuple[State, float]]:
