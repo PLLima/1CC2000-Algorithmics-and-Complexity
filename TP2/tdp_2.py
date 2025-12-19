@@ -92,9 +92,19 @@ def greedy(O_dict, W):
     n = len(O_dict)
     sol = {'selected': set() , 'weight': 0, 'score': 0}
 
-    ############### TODO : complete code ####################        
+    sorted_objs = sorted(O_dict.keys(), 
+                         key=lambda x: O_dict[x]['v'] / O_dict[x]['w'], 
+                         reverse=True)
 
-    ###############################################################
+    for obj in sorted_objs:
+        obj_weight = O_dict[obj]['w']
+        obj_value = O_dict[obj]['v']
+        
+        # Check if adding this object exceeds the total weight limit W
+        if sol['weight'] + obj_weight <= W:
+            sol['selected'].add(obj)
+            sol['weight'] += obj_weight
+            sol['score'] += obj_value
 
     return sol
 
@@ -102,15 +112,14 @@ def greedy(O_dict, W):
 # Question 3: Trap instance
 
 def trap_instance(k):
-    ############### TODO : complete code ####################
     O, W = {}, 0
-    # W = ...
-    # O = {
-    #     'o1': {'w': ..., 'v': ...},
-    #     'o2': {'w': ..., 'v': ...}
-    #     # ... add more objects if needed
-    # }
-    ###############################################################
+
+    W = 2 * k
+    O = {
+        'o1': {'w': 1, 'v': 2},
+        'o2': {'w': W, 'v': W}
+    }
+
     return O, W
 
 # Question 4 : Dynamic Programming implementation
