@@ -352,9 +352,10 @@ def knapsack_meet_in_the_middle(O_dict, W):
     cleaned_B = []
     max_v = -1
 
-    ############### TODO : complete code ####################        
-
-    ###############################################################
+    for w, v, s in B_sub:
+        if v > max_v:
+            max_v = v
+            cleaned_B.append((w, v, s))
 
     # Weights only for binary search
     B_weights = [w for w, v, S in cleaned_B]
@@ -362,9 +363,20 @@ def knapsack_meet_in_the_middle(O_dict, W):
     best_value = 0
     best_comb = set()
 
-    # Optimal search
-    # Use bisect.bisect_right: this function returns the index where to insert an element using binary search
-    ############### TODO : complete code ####################        
+    for w_a, v_a, s_a in A_sub:
+        remaining_capacity = W - w_a
+        
+        if remaining_capacity < 0:
+            continue
+            
+        idx = bisect.bisect_right(B_weights, remaining_capacity)
+        
+        if idx > 0:
+            w_b, v_b, s_b = cleaned_B[idx - 1]
+            
+            total_value = v_a + v_b
+            if total_value > best_value:
+                best_value = total_value
+                best_comb = s_a.union(s_b)
 
-    ###############################################################
     return {'selected': best_comb, 'score': best_value}
