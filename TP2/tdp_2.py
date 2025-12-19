@@ -269,15 +269,35 @@ def knapsack_bb_fractional(O_dict, W):
 
         best_cost = -inf  # For maximization: best value found so far
         best_sol: Optional[State] = None
-
+        nodes_explored[0] += 1
         while OPEN:
-            # If the best upper bound is worse than our current best, stop
-            if OPEN[0].priority >= -best_cost:  # priority is negative upper bound
+            if -OPEN[0].priority <= best_cost:
                 break
 
-    ############### TODO : complete code ####################        
+            node = heapq.heappop(OPEN)
+            nodes_explored[0] += 1
             
-    ###############################################################
+            upper_bound = -node.priority
+            current_node = node.cand
+
+            if upper_bound <= best_cost:
+                continue
+
+            if is_leaf(current_node):
+                if current_node['score'] > best_cost:
+                    best_cost = current_node['score']
+                    best_sol = current_node
+                continue
+
+            for child in partition(current_node):
+                if child['score'] > best_cost:
+                    best_cost = child['score']
+                    best_sol = child
+
+                child_bound = f(child)
+
+                if child_bound > best_cost:
+                    heapq.heappush(OPEN, Node(-child_bound, child))
 
         return (best_sol, best_cost) if best_sol is not None else None
 
