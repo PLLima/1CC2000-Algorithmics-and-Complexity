@@ -99,7 +99,6 @@ def greedy(O_dict, W):
         obj_weight = O_dict[obj]['w']
         obj_value = O_dict[obj]['v']
         
-        # Check if adding this object exceeds the total weight limit W
         if sol['weight'] + obj_weight <= W:
             sol['selected'].add(obj)
             sol['weight'] += obj_weight
@@ -131,16 +130,26 @@ def dynprog(O_dict, W):
     # FILLING THE TABLE ITERATIVELY
     V = np.zeros((n+1, W+1), dtype=int)
 
-    ############### TODO : complete code ####################        
-
-    ###############################################################
+    for i in range(1, n+1):
+        obj_name = objs_list[i-1]
+        w_i = O_dict[obj_name]['w']
+        v_i = O_dict[obj_name]['v']
+        for j in range(W+1):
+            if(i == 0 or j == 0):
+                V[i][j] = 0
+            elif(w_i > j):
+                V[i][j] = V[i-1][j]
+            elif(w_i <= j):
+                V[i][j] = max(V[i-1][j], V[i-1][j - w_i] + v_i)
 
     # RETRIEVE THE SOLUTION
     selected = set()
-
-    ############### TODO : complete code ####################        
-
-    ###############################################################
+    w = W
+    for i in range(n, 0, -1):
+        if V[i, w] != V[i-1, w]:
+            obj_name = objs_list[i-1]
+            selected.add(obj_name)
+            w -= O_dict[obj_name]['w']
 
     return {'selected': selected, 'score': V[n,W]}
 
@@ -196,9 +205,20 @@ def knapsack_bb_fractional(O_dict, W):
         if current_weight > W:
             return -inf  # Invalid state
 
-    ############### TODO : complete code ####################        
-        
-    ###############################################################
+        remaining_capacity = W - current_weight
+        bound = float(current_value)
+
+        for i in range(index, n):
+            obj = objs_list[i]
+            w_i = O_dict[obj]['w']
+            v_i = O_dict[obj]['v']
+
+            if w_i <= remaining_capacity:
+                bound += v_i
+                remaining_capacity -= w_i
+            else:
+                bound += v_i * (remaining_capacity / w_i)
+                break
 
         return bound
 
