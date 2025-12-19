@@ -38,9 +38,13 @@ def backtracking(O_dict, W) :
 
     # computes the children of the current partial solution
     def children(curParSol):
+        global objs_list
+
         childrenSols = []
         currentObjs = curParSol['selected']
-        for obj in objs_list:
+        start_index = curParSol['index']
+        for i in range(start_index, len(objs_list)):
+            obj = objs_list[i]
             if obj not in currentObjs:
                 newWeight = curParSol['weight'] + O_dict[obj]['w']
                 if newWeight <= W:
@@ -48,7 +52,7 @@ def backtracking(O_dict, W) :
                     newScore = curParSol['score'] + O_dict[obj]['v']
                     childSol = {
                         'selected': newSelected,
-                        'index': curParSol['index'] + 1,
+                        'index': i + 1,
                         'weight': newWeight,
                         'score': newScore
                     }
@@ -61,12 +65,14 @@ def backtracking(O_dict, W) :
 
     def backtracking_rec(curParSol) :
         global objs_list, bestSol, nodes_explored
-        
-        nodes_explored += 1
-        
-        ############### TODO : complete code here ####################
 
-        ###############################################################
+        nodes_explored += 1
+        if terminal(curParSol):
+            if curParSol['score'] > bestSol['score']: # search for a minimum
+                bestSol = curParSol
+        else:
+            for childParSol in children(curParSol):
+                backtracking_rec(childParSol)
 
     # call backtracking on the root node
     rootSol = {'selected': set() , 'index': 0, 'weight': 0, 'score': 0}
