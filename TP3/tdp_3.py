@@ -1,11 +1,13 @@
-# TP3 - problème du voyageur de commerce (TSP)
+# TP3 - Travelling Salesman Problem (TSP)
 
-# importations
+# imports
 import networkx as nx
 import random
 from math import dist
 
 grader = None
+
+
 
 # compute the matrix of Euclidean distances between cities
 def compute_graph(coords):
@@ -19,6 +21,7 @@ def compute_graph(coords):
     return graph
 
 
+
 # generate a list of random coordinates
 def generate_random_coords(n, x_max=100, y_max=100):
     coords = []
@@ -26,6 +29,8 @@ def generate_random_coords(n, x_max=100, y_max=100):
         coord = (random.randint(0,x_max),random.randint(0,y_max))
         coords.append(coord)
     return coords
+
+
 
 # compute the total length of the tour
 def compute_tour_length(tour, graph):
@@ -51,7 +56,6 @@ def greedy_tsp(graph):
         current_city = nearest_city
 
     return tour
-
 
 
 
@@ -83,7 +87,6 @@ def branch_and_bound_tsp(graph):
 
     bb_rec([0], 0, {0})
     return best_tour
-
 
 
 
@@ -140,6 +143,7 @@ def dfs(edges):
     return tour
 
 
+
 #  approximation algorithm to solve the TSP
 def approximate_tsp(graph):
 
@@ -150,8 +154,6 @@ def approximate_tsp(graph):
     tour = dfs(mst_edges)
 
     return tour
-
-
 
 
 
@@ -166,7 +168,9 @@ def find_odd_degree_vertices(edges):
     odd_vertices = [v for v, d in degree.items() if d % 2 != 0]
 
     return odd_vertices
-    
+
+
+
 # compute a subgraph from a graph and a list of vertices
 def find_sbg(lst_vertices, graph):
     sbg = {}
@@ -178,6 +182,8 @@ def find_sbg(lst_vertices, graph):
                 sbg[u][v] = graph[u][v]
 
     return sbg
+
+
 
 #  find the minimum weight perfect matching of a graph
 # returns a list of edges
@@ -195,6 +201,7 @@ def find_perfect_matching(graph):
     G.add_weighted_edges_from(edges)
     match = nx.max_weight_matching(G) # the function finds the maximum weight perfect matching, hence the inversion of weights
     return list(match)
+
 
 
 # build an Eulerian tour from a list of edges
@@ -230,6 +237,8 @@ def build_eulerian_tour(edges):
             tour.append(stack.pop())
 
     return tour[::-1]
+
+
 
 # build a Hamiltonian tour from an Eulerian tour
 def convert_to_hamiltonian_tour(eulerian_tour):
@@ -267,7 +276,3 @@ def christofides_tsp(graph):
     hamiltonian_tour = convert_to_hamiltonian_tour(eulerian_tour)
 
     return hamiltonian_tour
-
-
-
-
